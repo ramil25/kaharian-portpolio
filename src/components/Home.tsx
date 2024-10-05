@@ -113,8 +113,8 @@ export default function Home() {
             className="bg-indigo-800 bg-opacity-50 backdrop-blur-lg p-6 rounded-lg max-w-2xl mx-auto shadow-lg mb-8"
           >
             <p className="italic text-lg">
-              "Any fool can write code that a computer can understand. Good
-              programmers write code that humans can understand."
+              &quot Any fool can write code that a computer can understand. Good
+              programmers write code that humans can understand.&quot
             </p>
             <p className="mt-2 text-indigo-300">— Martin Fowler</p>
           </motion.div>
@@ -126,8 +126,8 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 1.4 }}
             className="mb-4 text-indigo-100"
           >
-            Click the "My Resume" button to download my updated resume. Thank
-            you and God bless!
+            Click the &quotMy Resume&quot button to download my updated resume.
+            Thank you and God bless!
           </motion.p>
 
           <motion.button
