@@ -1,7 +1,7 @@
 "use client";
-import React from "react";
+
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useMotionTransition } from "@/lib/motion";
 
 interface Skill {
   name: string;
@@ -14,91 +14,80 @@ const skills: Skill[] = [
   { name: "React", level: "Advanced" },
   { name: "Node.js", level: "Intermediate" },
   { name: "HTML/CSS", level: "Advanced" },
+  { name: "Next.js", level: "Intermediate" },
+  { name: "Laravel/PHP", level: "Intermediate" },
+  { name: "Kotlin", level: "Intermediate" },
+  { name: "Game Dev - ActionScript", level: "Intermediate" },
+  { name: "Nest.js / Express.js", level: "Intermediate" },
 ];
 
-const SkillsPage: React.FC = () => {
-  const getProgressWidth = (level: string) => {
-    switch (level) {
-      case "Advanced":
-        return "100%";
-      case "Intermediate":
-        return "70%";
-      case "Beginner":
-        return "40%";
-      default:
-        return "0";
-    }
-  };
+function getProgressWidth(level: string) {
+  switch (level) {
+    case "Advanced":
+      return "100%";
+    case "Intermediate":
+      return "70%";
+    case "Beginner":
+      return "40%";
+    default:
+      return "0";
+  }
+}
+
+export default function SkillsPage() {
+  const m = useMotionTransition();
 
   return (
-    <div className="skills-page container mx-auto p-4 pt-1">
-      <div className="bg-gradient-to-br from-purple-400 via-indigo-500 to-purple-600 relative text-white">
-        <header className="bg-indigo-900 bg-opacity-50 backdrop-blur-lg shadow-lg">
-          <nav className="flex justify-between items-center max-w-6xl mx-auto py-6 px-4">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-3xl font-bold text-white"
-            >
-              RK
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="space-x-6 text-lg"
-            >
-              {["Home", "Skills", "Portfolio", "Contact"].map((item) => (
-                <Link
-                  key={item}
-                  href={
-                    item === "Home" ? "/" : item === "Skills" ? "/skills" : ""
-                  }
-                  className="hover:text-indigo-300 transition-colors duration-200"
-                >
-                  {item}
-                </Link>
-              ))}
-            </motion.div>
-          </nav>
-        </header>
-      </div>
-      <header className="text-center py-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg shadow-lg">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 animate-fade-in-down">
-          My Skills
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <motion.header
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={m({ duration: 0.45 })}
+        className="mb-12 rounded-2xl border border-white/10 bg-brand-surface/50 p-8 text-center shadow-glow backdrop-blur-sm md:p-12"
+      >
+        <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+          Skills
         </h1>
-        <div className="w-16 h-1 bg-white mx-auto mb-4 rounded-full"></div>
-        <p className="text-white text-lg md:text-xl">
-          A collection of my technical expertise and proficiency levels
+        <div
+          className="mx-auto mt-4 h-1 w-16 rounded-full bg-indigo-300"
+          aria-hidden
+        />
+        <p className="mx-auto mt-4 max-w-2xl text-balance text-lg text-indigo-100/85">
+          Technical strengths and how comfortable I am with each stack.
         </p>
-      </header>
+      </motion.header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+      <ul className="grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
         {skills.map((skill, index) => (
-          <div
-            key={index}
-            className="skill-card p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300"
+          <motion.li
+            key={skill.name}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={m({ duration: 0.4, delay: index * 0.06 })}
+            className="rounded-2xl border border-white/10 bg-brand-surface/40 p-6 shadow-md backdrop-blur-sm transition-shadow hover:border-indigo-400/30 hover:shadow-glow"
           >
-            <h2 className="text-xl font-semibold mb-2">{skill.name}</h2>
-            <p className="mb-4">Level: {skill.level}</p>
-            <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+            <h2 className="text-lg font-semibold text-white">{skill.name}</h2>
+            <p className="mt-1 text-sm text-indigo-100/75">
+              Level: {skill.level}
+            </p>
+            <div
+              className="mt-4 h-3 w-full overflow-hidden rounded-full bg-black/25"
+              role="presentation"
+            >
               <div
                 className={`h-full rounded-full transition-all duration-1000 ${
                   skill.level === "Advanced"
-                    ? "bg-green-500"
+                    ? "bg-emerald-400"
                     : skill.level === "Intermediate"
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
+                      ? "bg-amber-400"
+                      : "bg-rose-400"
                 }`}
                 style={{ width: getProgressWidth(skill.level) }}
-              ></div>
+              />
             </div>
-          </div>
+          </motion.li>
         ))}
-      </div>
+      </ul>
     </div>
   );
-};
-
-export default SkillsPage;
+}

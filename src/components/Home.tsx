@@ -1,147 +1,116 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useMotionTransition } from "@/lib/motion";
 
 export default function Home() {
-  const [opacity, setOpacity] = useState(100);
+  const resumeUrl =
+    "https://drive.google.com/uc?export=download&id=1BAu7dO97H_XXq_l5_ga_Th6bSkpE83SJ";
+
+  const [dimmed, setDimmed] = useState(false);
+  const m = useMotionTransition();
 
   useEffect(() => {
-    const timer = setTimeout(() => setOpacity(70), 1000);
-    return () => clearTimeout(timer);
+    const timer = window.setTimeout(() => setDimmed(true), 1000);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-indigo-500 to-purple-600  text-white">
-      {/* Background with blur effect */}
+    <div className="relative">
       <div
-        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-${opacity}`}
-        style={{
-          backgroundSize: "",
-          backgroundPosition: "center",
-          filter: "blur(5px)",
-        }}
+        className={`pointer-events-none absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          dimmed ? "opacity-70" : "opacity-100"
+        }`}
+        style={{ filter: "blur(5px)" }}
+        aria-hidden
       />
 
-      {/* Main content */}
-      <div className="skills-page container mx-auto p-4 pt-1">
-        {/* Header with gradient and navigation */}
-        <div className="bg-gradient-to-br from-purple-400 via-indigo-500 to-purple-600 relative text-white">
-          <header className="bg-indigo-900 bg-opacity-50 backdrop-blur-lg shadow-lg">
-            <nav className="flex justify-between items-center max-w-6xl mx-auto py-6 px-4">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-3xl font-bold text-white"
-              >
-                RK
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="space-x-6 text-lg"
-              >
-                {["Home", "Skills", "Portfolio", "Contact"].map((item) => (
-                  <Link
-                    key={item}
-                    href={
-                      item === "Home" ? "/" : item === "Skills" ? "/skills" : ""
-                    }
-                    className="hover:text-indigo-300 transition-colors duration-200"
-                  >
-                    {item}
-                  </Link>
-                ))}
-              </motion.div>
-            </nav>
-          </header>
-        </div>
+      <main className="relative mx-auto max-w-3xl px-4 py-12 text-center md:py-16">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={m({ duration: 0.5 })}
+          className="text-4xl font-bold tracking-tight text-white md:text-5xl"
+        >
+          Welcome to my portfolio
+        </motion.h1>
 
-        {/* Main Section */}
-        <main className="container mx-auto px-4 py-12 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-5xl font-bold mb-6 text-indigo-100"
-          >
-            Welcome to My Web Portfolio!
-          </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={m({ duration: 0.5, delay: 0.15 })}
+          className="mt-8"
+        >
+          <Image
+            src="/assets/1.jpg"
+            alt="Ramil L. Kaharian"
+            width={200}
+            height={200}
+            priority
+            className="mx-auto rounded-full border-4 border-indigo-300/80 shadow-lg shadow-indigo-900/40"
+            sizes="200px"
+          />
+        </motion.div>
 
-          {/* Profile Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="mb-6"
-          >
-            <Image
-              src="/assets/1.jpg"
-              alt="Profile Picture"
-              width={200}
-              height={200}
-              className="rounded-full mx-auto border-4 border-indigo-300 shadow-lg"
-            />
-          </motion.div>
+        <motion.h2
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={m({ duration: 0.5, delay: 0.25 })}
+          className="mt-8 text-2xl font-semibold text-indigo-100 md:text-3xl"
+        >
+          Ramil L. Kaharian
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={m({ duration: 0.5, delay: 0.35 })}
+          className="mt-2 text-lg text-indigo-100/90 md:text-xl"
+        >
+          Web and Android game developer
+        </motion.p>
 
-          {/* Name and Title */}
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="text-3xl font-semibold text-indigo-200"
-          >
-            Ramil L. Kaharian
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1 }}
-            className="text-xl text-indigo-100 mb-8"
-          >
-            Web and Android Game Developer
-          </motion.p>
+        <motion.figure
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={m({ duration: 0.5, delay: 0.45 })}
+          className="mt-10 rounded-2xl border border-white/10 bg-brand-surface/60 p-6 text-left shadow-glow backdrop-blur-md md:p-8"
+        >
+          <blockquote className="italic text-base leading-relaxed text-indigo-50 md:text-lg">
+            &ldquo;Any fool can write code that a computer can understand. Good
+            programmers write code that humans can understand.&rdquo;
+          </blockquote>
+          <figcaption className="mt-3 text-sm font-medium text-indigo-200">
+            — Martin Fowler
+          </figcaption>
+        </motion.figure>
 
-          {/* Quote Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-            className="bg-indigo-800 bg-opacity-50 backdrop-blur-lg p-6 rounded-lg max-w-2xl mx-auto shadow-lg mb-8"
-          >
-            <p className="italic text-lg">
-              &quot Any fool can write code that a computer can understand. Good
-              programmers write code that humans can understand.&quot
-            </p>
-            <p className="mt-2 text-indigo-300">— Martin Fowler</p>
-          </motion.div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={m({ duration: 0.5, delay: 0.55 })}
+          className="mt-10 text-indigo-100/85"
+        >
+          Download my latest resume below. Thank you and God bless!
+        </motion.p>
 
-          {/* Resume Section */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
-            className="mb-4 text-indigo-100"
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={m({ duration: 0.5, delay: 0.65 })}
+          className="mt-6"
+        >
+          <a
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-indigo-600 px-8 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            Click the &quotMy Resume&quot button to download my updated resume.
-            Thank you and God bless!
-          </motion.p>
-
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.6 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-colors duration-200"
-          >
-            <Link href={"/assets/rlk.pdf"}>My Resume</Link>
-          </motion.button>
-        </main>
-      </div>
+            My resume
+          </a>
+        </motion.div>
+      </main>
     </div>
   );
 }
